@@ -3,7 +3,7 @@ import { CostCreation } from '../components/CostCreation.vue'
 import axios from 'axios'
 
 export type State = {
-  costs: CostCreation[]
+  costs: any[]
 }
 
 export const useCostStore = defineStore('cost', {
@@ -30,6 +30,14 @@ export const useCostStore = defineStore('cost', {
       // }).catch((error) => {
       //   console.log(error)
       // });
-    }
+    },
+    updateCost(cost: any): void {
+      this.costs[this.costs.indexOf(cost)] = cost
+      // axios.put('http://localhost:3000/costs/' + cost.id, cost).then((response) => {
+      //   console.log(response)
+      // }).catch((error) => {
+      //   console.log(error)
+      // });
+    },
   },
 })

@@ -29,3 +29,7 @@ h1, h2 {
 .errorMessage {
   @apply text-red-700 mt-5;
 }
+
+.tag {
+  @apply bg-gray-100 rounded-md p-1 items-center text-black flex flex-row justify-around text-sm float-left mt-2 mr-2 px-2;
+}

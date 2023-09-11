@@ -13,9 +13,6 @@
   <div class="container mx-auto">
     <h1>OTHER CAPEX AND OPEX COSTS</h1>
     <CostCreation/>
-    <div>
-      {{ costs }}
-    </div>
     <div
       v-for="(cost, index) in costs"
       :key="index"
