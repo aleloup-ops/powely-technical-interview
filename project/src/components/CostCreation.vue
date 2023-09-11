@@ -9,7 +9,7 @@
     zod.object({
       costName: zod.string().min(2).max(50).nonempty("This is required"),
       costCategory: zod.string().min(2).max(50).nonempty("This is required"),
-      cost: zod.number().min(0).max(1000000000),
+      costPrice: zod.number().min(0).max(1000000000),
       costType: zod.string().min(2).max(50).nonempty("This is required"),
       costFrequency: zod.string().min(2).max(50).nonempty("This is required"),
     })
@@ -17,11 +17,13 @@
 
 
   // Submit handler
-  function onSubmit(values: CostCreation) {
+  function onSubmit(values: any) {
+    console.log("okkk")
     console.log(values)
     const costStore = useCostStore()
     try {
       costStore.registerCost(values);
+      console.log("okkk")
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +42,7 @@
   <div class="w-full bg-yellow-100 py-5">
     <div class=" px-10">
       <Form
-        v-slot="{ meta, values }"
+        v-slot="{ meta, values, errors }"
         :validation-schema="validationSchema"
         @submit="onSubmit"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 mt-10"
@@ -62,12 +64,12 @@
           <ErrorMessage class="errorMessage" name="costCategory" />
         </div>
         <div>
-          <label for="cost">COST</label>
+          <label for="costPrice">COST</label>
           <div class="relative">
-            <Field name="cost" type="number" class="mt-2 w-5/6 px-2 h-10" placeholder="Cost" />
+            <Field name="costPrice" type="number" class="mt-2 w-5/6 px-2 h-10" placeholder="Cost" />
             <p class="absolute top-4 right-10">EUR</p>
           </div>
-          <ErrorMessage class="errorMessage" name="cost" />
+          <ErrorMessage class="errorMessage" name="costPrice" />
         </div>
         <div>
           <label for="costType">COST TYPE</label>
@@ -104,7 +106,7 @@
         <div class="flex items-end">
           <button type="submit" :disabled="!meta.valid" class="btn">ADD</button>
         </div>
-        <p>{{ values }}</p>
+        <p>{{ errors }}</p>
 
       </Form>
     </div>

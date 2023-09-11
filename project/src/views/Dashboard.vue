@@ -3,9 +3,10 @@
   import Cost from "../components/Cost.vue"
 
   import { useCostStore } from "../stores/costStore";
+  import { computed } from "vue";
 
   const costStore = useCostStore()
-  let costs = costStore.costs
+  let costs: any[] = costStore.getCosts;
 
 </script>
 <template>
