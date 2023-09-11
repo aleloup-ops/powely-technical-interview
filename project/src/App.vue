@@ -1,10 +1,11 @@
 <script setup lang="ts">
+  import Dashboard from "./views/Dashboard.vue";
+  import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-  <div>
-    <p class="text-red font-bold">ndhdhdhdh</p>
-  </div>
+  <Navbar />
+  <Dashboard class="mt-24" />
 </template>
 
 <style scoped>
@@ -20,4 +21,5 @@
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
+
 </style>
