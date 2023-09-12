@@ -17,8 +17,8 @@
       costPrice: zod.number().min(0).max(1000000000).default(props.cost.costPrice),
       costType: zod.string().min(2).max(50).nonempty("This is required").default(props.cost.costType),
       costFrequency: zod.string().default(props.cost.costFrequency),
-      costStarting: zod.string().optional(),
-      costDescription: zod.string().optional(),
+      costStarting: zod.string().default(props.cost.costStarting),
+      costDescription: zod.string().default(props.cost.costDescription),
     })
   );
 
@@ -26,7 +26,10 @@
   function onSubmit(values: any) {
     const costStore = useCostStore()
     try {
+      console.log(values);
+      console.log(costStore.getCosts.findIndex((element: any) => element.costName === values.costName))
       costStore.updateCost(values);
+      console.log(costStore.getCosts)
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +44,7 @@
   <div class="my-10">
     <div class="w-full flex flex-row pl-5">
       <div class="w-1/6">
-        <h2 class="uppercase">{{ props.cost.costType }} [{{ props.cost.costName }}]</h2>
+        <h2 class="uppercase">{{ props.cost.costType }} [OPEX]</h2>
       </div>
       <div class="w-1/6 hidden sm:block">
         <h2>CATEGORY</h2>
@@ -52,11 +55,14 @@
       <div class="w-1/6 hidden sm:block">
         <h2>STARTING</h2>
       </div>
+      <div class="w-1/6 hidden sm:block">
+        <h2>FREQUENCY</h2>
+      </div>
     </div>
     <div class="w-full bg-gray-100 py-5 mt-5">
       <div class="px-10 flex flex-col lg:flex-row">
         <div class="w-1/6">
-          <p class="font-medium text-xl text-p-black">{{ props.cost.costType }}</p>
+          <p class="font-medium text-xl text-p-black">{{ props.cost.costName }}</p>
         </div>
         <Form
           v-slot="{ values }"
@@ -87,7 +93,6 @@
               <ErrorMessage class="errorMessage" name="costStarting" />
             </div>
             <div class="w-full sm:w-1/4" v-if="values.costType == 'recurrent'">
-              <label for="costFrequency">FREQUENCY</label>
               <Field as="select" name="costFrequency" type="text" class="mt-2 w-full lg:w-5/6 px-2 h-10" placeholder="Cost frequency">
                 <option value="hourly">Hourly</option>
                 <option value="daily">Daily</option>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import { Form, Field, ErrorMessage } from "vee-validate";
+  import { Form, Field, ErrorMessage, useField, useForm } from "vee-validate";
   import { toTypedSchema } from '@vee-validate/zod';
   import * as zod from 'zod';
 
   import { useCostStore } from "../stores/costStore";
 
+  const recommendedTags : string[] = ["Land Purchase", "Land Rent", "Water and Sewage", "HR and Personnel", "Hydrogen Storage", "Electrical Work", "Development", "Installation", "Indirect"]
 
   const validationSchema = toTypedSchema(
     zod.object({
@@ -15,7 +16,6 @@
       costFrequency: zod.string().optional(),
     })
   );
-
 
   // Submit handler
   function onSubmit(values: any) {
@@ -35,8 +35,9 @@
         v-slot="{ meta, values }"
         :validation-schema="validationSchema"
         @submit="onSubmit"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 mt-10 gap-2"
+        class=""
       >
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 mt-10 gap-2">
         <div>
           <label for="costName">NEW COST NAME</label>
           <Field name="costName" type="text" class="mt-2 w-full lg:w-5/6 px-2 h-10" placeholder="Cost label" />
@@ -96,48 +97,25 @@
         <div class="flex items-end mt-10 lg:mt-0">
           <button type="submit" :disabled="!meta.valid" class="btn">ADD</button>
         </div>
-      </Form>
+      </div>
       <div class="mt-10">
         <h2>RECOMMANDED COSTS</h2>
         <div class="mt-2 mb-80 lg:mb-24 w-2/3">
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Land Purchase</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Land Rent</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Water an Sewage</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">HR and Personnel</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Hydrogen Storage</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Electrical Work</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Development</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Installation</p>
-          </div>
-          <div class="tag">
-            <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
-            <p class="ml-2">Indirect</p>
+          <div
+            class="tag"
+            v-for="(tag) in recommendedTags"
+            :key="tag"
+          >
+            <Field :id="'costName-' + tag" type="radio" class="hidden" name="costName" :value="tag">
+            </Field>
+            <label :for="'costName-' + tag" class="flex flex-row items-center">
+              <font-awesome-icon class="text-black/75" icon="fa-solid fa-xmark" />
+              <p class="ml-2">{{ tag }}</p>
+            </label>
           </div>
         </div>
       </div>
+      </Form>
     </div>
   </div>
 </template>
